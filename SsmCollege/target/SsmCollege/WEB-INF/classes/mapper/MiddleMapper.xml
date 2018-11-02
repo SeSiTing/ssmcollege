@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.MiddleMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Middle">
+    <id column="middleid" jdbcType="INTEGER" property="middleid" />
+    <result column="menuid" jdbcType="INTEGER" property="menuid" />
+    <result column="roleid" jdbcType="INTEGER" property="roleid" />
+  </resultMap>
+
+
+  <!--新增角色的中间表-->
+  <insert id="insertMiddle" parameterType="map">
+    insert into middle(roleid,menuid) values
+    <foreach collection="menuids" item="mid" separator=",">
+      (#{roleid},#{mid})
+    </foreach>
+  </insert>
+
+  <!--通过角色id删除中间表-->
+  <delete id="deletemiddlebyrid">
+    delete from middle where roleid=#{roleid}
+  </delete>
+
+  <!--通过菜单id删除中间表-->
+  <delete id="deletemiddlebymid">
+    delete from middle where menuid=#{menuid}
+  </delete>
+
+  <!--查询对应菜单是否有角色在使用-->
+  <select id="selcountbymid" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    select count(*) from middle where menuid=#{menuid};
+  </select>
+
+
+  <!--新增中间表-->
+  <insert id="insertmiddle_role" parameterType="map">
+    insert into middle(roleid,menuid) values
+    <foreach collection="menuids" item="mid" separator=",">
+      (#{roleid},#{mid})
+    </foreach>
+  </insert>
+
+
+
+
+
+
+  <sql id="Base_Column_List">
+    middleid, menuid, roleid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from middle
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from middle
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Middle">
+    insert into middle (middleid, menuid, roleid
+      )
+    values (#{middleid,jdbcType=INTEGER}, #{menuid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Middle">
+    insert into middle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="middleid != null">
+        middleid,
+      </if>
+      <if test="menuid != null">
+        menuid,
+      </if>
+      <if test="roleid != null">
+        roleid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="middleid != null">
+        #{middleid,jdbcType=INTEGER},
+      </if>
+      <if test="menuid != null">
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Middle">
+    update middle
+    <set>
+      <if test="menuid != null">
+        menuid = #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="roleid != null">
+        roleid = #{roleid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Middle">
+    update middle
+    set menuid = #{menuid,jdbcType=INTEGER},
+      roleid = #{roleid,jdbcType=INTEGER}
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </update>
+</mapper>

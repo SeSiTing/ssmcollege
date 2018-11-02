@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.LeavebillMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Leavebill">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="days" jdbcType="INTEGER" property="days" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+
+  <select id="findleavelist" resultMap="BaseResultMap">
+     select * from leavebill  where userid=#{userid}
+  </select>
+
+
+  <sql id="Base_Column_List">
+    id, days, content, date, remark, userid, state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from leavebill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from leavebill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Leavebill">
+    insert into leavebill (id, days, content, 
+      date, remark, userid, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{days,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{date,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Leavebill">
+    insert into leavebill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="days != null">
+        days,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="days != null">
+        #{days,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Leavebill">
+    update leavebill
+    <set>
+      <if test="days != null">
+        days = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Leavebill">
+    update leavebill
+    set days = #{days,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      date = #{date,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
